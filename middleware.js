@@ -7,7 +7,7 @@ module.exports.IsLoggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
          req.session.redirectUrl = req.originalUrl ;
       req.flash("error","you must logged in first ");
-      res.redirect("/signin");
+      return res.redirect("/signin");
     }
     next();
 }

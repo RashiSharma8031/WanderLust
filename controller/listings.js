@@ -1,5 +1,6 @@
 const { query } = require("express");
 const Listing = require("../models/listing");
+const ExpressError = require("../utils/ExpressError.js")
 const mbxgeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const map_Token = process.env.Map_Token;
 const geocodingClient = mbxgeocoding({ accessToken: map_Token });
@@ -26,7 +27,7 @@ module.exports.showlistings = async (req,res)=>{
    }).populate("owner");
     if(!listing){
      req.flash("error","listing you try to access not exist");
-     res.redirect("/listings");
+     return res.redirect("/listings");
     }
    //  console.log(listing);
     res.render("listings/show.ejs",{listing})
@@ -59,7 +60,7 @@ module.exports.renderEditform = async (req,res)=>{
     const listing = await Listing.findById(id);
     if( !listing){
       req.flash("error","listing you access not exist");
-      res.redirect("/listings");
+      return res.redirect("/listings");
     }
      let originalImageUrl = listing.image.url;
      originalImageUrl=originalImageUrl.replace("/upload","/upload/w_250")

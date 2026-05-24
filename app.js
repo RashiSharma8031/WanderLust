@@ -128,13 +128,6 @@ app.post("/signin",  saveRedirectUrl, passport.authenticate("local",{failureRedi
 app.get("/logout",usercontroller.logout);
 
 
-
-
-
-
-
-
-
 //index page 
 app.get("/Listings",wrapAsync(listingcontroller.index ));
 
@@ -147,17 +140,14 @@ app.get("/listing/new", IsLoggedIn, listingcontroller.rendernewform)
 //create route
   app.post("/listings",IsLoggedIn,upload.single('listing[image]'),validateListing, wrapAsync(listingcontroller.createlisting));
 
-
-
-
 //edit route 
-app.get("/listings/:id/edit",IsLoggedIn,isOwner, listingcontroller.renderEditform)
+app.get("/listings/:id/edit",IsLoggedIn,isOwner, wrapAsync(listingcontroller.renderEditform))
 
 //update route
-app.put("/listings/:id", IsLoggedIn,isOwner,upload.single('listing[image]'),validateListing, listingcontroller.updatelisting)
+app.put("/listings/:id", IsLoggedIn,isOwner,upload.single('listing[image]'),validateListing, wrapAsync(listingcontroller.updatelisting))
 
 //delete route
-app.delete("/listings/:id",IsLoggedIn, isOwner ,listingcontroller.destroylisting);
+app.delete("/listings/:id",IsLoggedIn, isOwner ,wrapAsync(listingcontroller.destroylisting));
 
 //reviews 
 //post route
